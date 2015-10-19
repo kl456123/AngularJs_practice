@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AngularJs</title>
+    <script type="text/javascript" src="./js/angular.min.js"></script>
+    <script type="text/javascript" src="./js/angular-route.min.js"></script>
+</head>
+
+<body >
+<h2>AngularJs Sample Application</h2>
+<div ng-app="myapp" ng-controller="CalcController">
+	<p>Enter a number :</p><input type="number" ng-model="number">
+	<button ng-click="square()">X<sup>2</sup></button>
+	<p>Result:{{result}}</p>
+</div>
+<script type="text/javascript">
+	var myapp=angular.module("myapp",[]);
+	myapp.factory('MathService',function(){
+		var factory={};
+		factory.multiply=function(a,b){
+			return a * b;
+		}
+		return factory;
+	});
+
+	myapp.service('CalcService',function(MathService){
+		this.square=function(a){
+			return MathService.multiply(a,a);
+		}
+	});
+
+	myapp.value("defultInput",5);
+	
+	myapp.controller('CalcController',function($scope,CalcService,defultInput){
+		$scope.number = defultInput;
+		$scope.result = CalcService.square($scope.number);
+		$scope.square=function(){
+			$scope.result=CalcService.square($scope.number);
+		}
+	});
+</script>
+
+</body>
+
+</html>
